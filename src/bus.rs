@@ -1,5 +1,9 @@
-pub struct Bus {
+use std::array;
+use crate::cpu::{self, CPU};
 
+pub struct Bus {
+    cpu : CPU,
+    ram : [u8; 64 * 1024]
 }
 
 impl Bus {
