@@ -1,5 +1,4 @@
-use std::array;
-use crate::cpu::{self, CPU};
+use crate::cpu::CPU;
 
 pub struct Bus {
     cpu : CPU,
@@ -7,6 +6,13 @@ pub struct Bus {
 }
 
 impl Bus {
+    pub fn new() -> Self {
+        Bus {
+            cpu: CPU::new(),
+            ram: [0; 64 * 1024]
+        }
+    }
+    
     pub fn write(address : u16, data : u8) -> () {
 
     }
