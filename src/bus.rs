@@ -1,14 +1,12 @@
 use crate::cpu::CPU;
 
 pub struct Bus {
-    cpu : CPU,
     ram : [u8; 64 * 1024]
 }
 
 impl Bus {
     pub fn new() -> Self {
         Bus {
-            cpu: CPU::new(),
             ram: [0; 64 * 1024]
         }
     }

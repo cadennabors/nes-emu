@@ -1,20 +1,21 @@
 use crate ::bus::Bus;
+use std::rc::Rc;
 pub struct CPU {
     pub register_a: u8,
     pub register_x: u8,
     pub status: u8,
     pub program_counter: u16,
-    bus : Bus
+    bus : Bus,
 }
 
 impl CPU {
-    pub fn new() -> Self {
+    pub fn new(bus : Bus) -> Self {
         CPU {
             register_a: 0,
             register_x: 0,
             status: 0,
             program_counter: 0,
-            bus : std::ptr::null,
+            bus,
         }
     }
 
@@ -22,11 +23,11 @@ impl CPU {
  
     }
 
-    fn write(addr : u16, data : u8) -> () {
-        bus.write(addr, data)
+    fn write(&mut self, addr : u16, data : u8) -> () {
+        self.bus.write(addr, data);
     
     }
-    fn read(addr : u16, _bReadOnly : Option<bool>) -> u8 {
-        return self.ram[addr as usize];
+    fn read(&mut self,addr : u16, _bReadOnly : Option<bool>) -> u8 {
+        return self.bus.read(addr, _bReadOnly);
     }
 }
