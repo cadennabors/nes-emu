@@ -7,7 +7,20 @@ pub struct CPU {
     pub program_counter: u16,
     bus : Bus,
 }
-
+pub enum AddressingMode {
+    ACCUMULATOR,
+    ABSOLUTE,
+    ABSOLUTEx,
+    ABSOLUTEy,
+    IMMEDIATE,
+    INDIRECT,
+    INDIRECTx,
+    INDIRECTy,
+    RELATIVE,
+    ZEROPAGE,
+    ZEROPAGEx,
+    ZEROPAGEy,
+}
 
 impl CPU {
     pub fn new(bus : Bus) -> Self {
