@@ -1,3 +1,5 @@
+use crate::cpu::AddressingMode;
+
 pub struct Opcode {
     pub name : u8,
     pub bytes : u8,
