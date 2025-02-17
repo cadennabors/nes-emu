@@ -17,7 +17,7 @@ impl Bus {
         self.ram[addr as usize] = data;
     
     }
-    pub fn read(addr : u16, bReadOnly : Option<bool>) -> u8 {
-        return 0x00
+    pub fn read(&mut self, addr : u16, _bReadOnly : Option<bool>) -> u8 {
+        return self.ram[addr as usize];
     }
 }
