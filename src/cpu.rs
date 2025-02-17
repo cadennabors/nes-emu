@@ -1,9 +1,9 @@
 use crate ::bus::Bus;
-use std::rc::Rc;
 pub struct CPU {
     pub register_a: u8,
     pub register_x: u8,
     pub status: u8,
+    pub stkp : u8,
     pub program_counter: u16,
     bus : Bus,
 }
@@ -14,6 +14,7 @@ impl CPU {
             register_a: 0,
             register_x: 0,
             status: 0,
+            stkp : 0,
             program_counter: 0,
             bus,
         }
