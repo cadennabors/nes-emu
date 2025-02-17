@@ -15,3 +15,7 @@ impl Opcode {
      }
     }
 }
+
+pub const OPCODE_TABLE : [Opcode; 256] = [
+
+];
