@@ -13,10 +13,11 @@ impl Bus {
         }
     }
     
-    pub fn write(address : u16, data : u8) -> () {
-
+    pub fn write(&mut self, addr : u16, data : u8) -> () {
+        self.ram[addr as usize] = data;
+    
     }
-    pub fn read(address : u16, bReadOnly : Option<bool>) -> u8 {
+    pub fn read(addr : u16, bReadOnly : Option<bool>) -> u8 {
         return 0x00
     }
 }
