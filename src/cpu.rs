@@ -1,5 +1,4 @@
 use crate ::bus::Bus;
-use crate ::opcode_table::{Opcode, OPCODE_TABLE};
 pub struct CPU {
     pub register_a: u8,
     pub register_x: u8,
