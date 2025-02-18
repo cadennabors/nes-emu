@@ -50,14 +50,18 @@ Opcode::new(0x12, 1, 1, AddressingMode::UNIMPLEMENTED),
 Opcode::new(0x13, 1, 1, AddressingMode::UNIMPLEMENTED), 
 Opcode::new(0x14, 1, 1, AddressingMode::UNIMPLEMENTED), 
 
-Opcode::new(0x15, bytes, cycles, addressing_mode),
-Opcode::new(0x16, bytes, cycles, addressing_mode),
-Opcode::new(0x17, bytes, cycles, addressing_mode),
-Opcode::new(0x18, bytes, cycles, addressing_mode),
-Opcode::new(0x19, bytes, cycles, addressing_mode),
-Opcode::new(0x1A, bytes, cycles, addressing_mode),
-Opcode::new(0x1B, bytes, cycles, addressing_mode),
-Opcode::new(0x1C, bytes, cycles, addressing_mode),
+Opcode::new(0x15, 2, 4, AddressingMode::ZEROPAGEx), // ORA zero page x
+Opcode::new(0x16, 2, 6, AddressingMode::ZEROPAGEx), // ASL zero page x
+
+Opcode::new(0x17, 1, 1, AddressingMode::UNIMPLEMENTED), 
+
+Opcode::new(0x18, 1, 2, AddressingMode::NONE), // CLC implied
+Opcode::new(0x19, 3, 4 /* VARIED */, AddressingMode::ABSOLUTEy), // ORA absolute y
+
+Opcode::new(0x1A, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x1B, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x1C, 1, 1, AddressingMode::UNIMPLEMENTED),
+
 Opcode::new(0x1D, bytes, cycles, addressing_mode),
 Opcode::new(0x1E, bytes, cycles, addressing_mode),
 Opcode::new(0x1F, bytes, cycles, addressing_mode),
