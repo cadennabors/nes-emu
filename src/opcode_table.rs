@@ -62,25 +62,35 @@ Opcode::new(0x1A, 1, 1, AddressingMode::UNIMPLEMENTED),
 Opcode::new(0x1B, 1, 1, AddressingMode::UNIMPLEMENTED),
 Opcode::new(0x1C, 1, 1, AddressingMode::UNIMPLEMENTED),
 
-Opcode::new(0x1D, bytes, cycles, addressing_mode),
-Opcode::new(0x1E, bytes, cycles, addressing_mode),
-Opcode::new(0x1F, bytes, cycles, addressing_mode),
-Opcode::new(0x20, bytes, cycles, addressing_mode),
-Opcode::new(0x21, bytes, cycles, addressing_mode),
-Opcode::new(0x22, bytes, cycles, addressing_mode),
-Opcode::new(0x23, bytes, cycles, addressing_mode),
-Opcode::new(0x24, bytes, cycles, addressing_mode),
-Opcode::new(0x25, bytes, cycles, addressing_mode),
-Opcode::new(0x26, bytes, cycles, addressing_mode),
-Opcode::new(0x27, bytes, cycles, addressing_mode),
-Opcode::new(0x28, bytes, cycles, addressing_mode),
-Opcode::new(0x29, bytes, cycles, addressing_mode),
-Opcode::new(0x2A, bytes, cycles, addressing_mode),
-Opcode::new(0x2B, bytes, cycles, addressing_mode),
-Opcode::new(0x2C, bytes, cycles, addressing_mode),
-Opcode::new(0x2D, bytes, cycles, addressing_mode),
-Opcode::new(0x2E, bytes, cycles, addressing_mode),
-Opcode::new(0x2F, bytes, cycles, addressing_mode),
+Opcode::new(0x1D, 3, 4 /* VARIED */, AddressingMode::ABSOLUTEx), // ORA absolute x
+Opcode::new(0x1E, 3, 7, AddressingMode::ABSOLUTEx), // ASL absolute x
+
+Opcode::new(0x1F, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x20, 3, 6, AddressingMode::ABSOLUTE), // JSR absolute
+Opcode::new(0x21, 2, 6, AddressingMode::INDIRECTx), // AND indirect x
+
+Opcode::new(0x22, 1, 1, AddressingMode::UNIMPLEMENTED), 
+Opcode::new(0x23, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x24, 2, 3, AddressingMode::ZEROPAGE), // BIT zero page
+Opcode::new(0x25, 2, 3, AddressingMode::ZEROPAGE), // AND zero page
+Opcode::new(0x26, 2, 5, AddressingMode::ZEROPAGE), // ROL zero page
+
+Opcode::new(0x27, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x28, 1, 4, AddressingMode::NONE), // PLP implied
+Opcode::new(0x29, 2, 2, AddressingMode::IMMEDIATE), // AND immediate
+Opcode::new(0x2A, 1, 2, AddressingMode::ACCUMULATOR), // ROL accumulator
+
+Opcode::new(0x2B, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x2C, 3, 4, AddressingMode::ABSOLUTE), // BIT absolute
+Opcode::new(0x2D, 3, 4, AddressingMode::ABSOLUTE), // AND absolute
+Opcode::new(0x2E, 3, 6, AddressingMode::ABSOLUTE), // ROL absolute
+
+Opcode::new(0x2F, 1, 1, AddressingMode::UNIMPLEMENTED),
+
 Opcode::new(0x30, bytes, cycles, addressing_mode),
 Opcode::new(0x31, bytes, cycles, addressing_mode),
 Opcode::new(0x32, bytes, cycles, addressing_mode),
