@@ -1,4 +1,4 @@
-use crate::cpu::AddressingMode;
+use crate::cpu::AddressingMode::{self, *};
 
 pub struct Op {
     pub const_name : u8,
@@ -364,3 +364,48 @@ pub const CLV_IMPL : u8 = 0xB8;
 // OTHER
 pub const NOP_IMPL : u8 = 0xEA;
 
+pub const NOT_SUPPORTED : u8 = 0x02;
+pub const ILLEGAL : Op = Op::new(NOT_SUPPORTED, 1, 1, ZERO);
+
+pub const ITEM_TABLE : [Op;256] = [
+// 0X
+Op::new(BRK_IMPL, 1, 7, ZERO),
+Op::new(ORA_IND_X, 2, 6, INDIRECTx),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(ORA_ZP, 2, 3, ZEROPAGE),
+Op::new(ASL_ZP, 2, 5, ZEROPAGE),
+ILLEGAL,
+Op::new(PHP_IMPL, 1, 3, ZERO),
+Op::new(ORA_IMM, 2, 2, IMMEDIATE),
+Op::new(ASL_ACC, 1, 2, ACCUMULATOR),
+ILLEGAL,
+ILLEGAL,
+Op::new(ORA_ABS, 3, 4, ABSOLUTE),
+Op::new(ASL_ABS, 3, 6, ABSOLUTE),
+ILLEGAL,
+
+//1X
+Op::new(BPL_REL, 2, 2 /* VARIES */, RELATIVE),
+Op::new(ORA_IND_Y, 2, 5 /* varies */, INDIRECTy),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(ORA_ZP_X, 2, 4, ZEROPAGEx),
+Op::new(ASL_ZP_X, 2, 6, ZEROPAGEx),
+ILLEGAL,
+Op::new(CLC_IMPL, 1, 2, ZERO),
+Op::new(ORA_ABS_Y, 3, 4 /* VARIES */, ABSOLUTEy),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(ORA_ABS_X, 3, 4 /*VARIES */, ABSOLUTEx),
+Op::new(ASL_ABS_X, 3, 7, ABSOLUTEx),
+ILLEGAL
+
+//2X
+
+
+//Op::new(),
+];
