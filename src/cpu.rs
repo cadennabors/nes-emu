@@ -21,7 +21,7 @@ pub enum AddressingMode {
     INDIRECT, // JMP ONLY
     INDIRECTx,
     INDIRECTy,
-    NONE,
+    ZERO,
     UNIMPLEMENTED,
 }
 
