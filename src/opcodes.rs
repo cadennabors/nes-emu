@@ -282,3 +282,42 @@ pub const BIT_ZP : u8 = 0x24;
 pub const BIT_ABS : u8 = 0x2C;
 
 // COMPARE
+/* CMP compares A to a memory value, setting flags as appropriate but 
+not modifying any registers. The comparison is implemented as a 
+subtraction, setting carry if there is no borrow, zero if the result is 
+0, and negative if the result is negative. However, carry and zero are 
+often most easily remembered as inequalities.
+
+Note that comparison does not affect overflow. */
+pub const CMP_IMM : u8 = 0xC9;
+pub const CMP_ZP : u8 = 0xC5;
+pub const CMP_ZP_X : u8 = 0xD5;
+pub const CMP_ABS : u8 = 0xCD;
+pub const CMP_ABS_X : u8 = 0xDD;
+pub const CMP_ABS_Y : u8 = 0xD9;
+pub const CMP_IND_X : u8 = 0xC1;
+pub const CMP_IND_Y : u8 = 0xD1;
+
+/* CPX compares X to a memory value, setting flags as appropriate but 
+not modifying any registers. The comparison is implemented as a 
+subtraction, setting carry if there is no borrow, zero if the result 
+is 0, and negative if the result is negative. However, carry and zero 
+are often most easily remembered as inequalities.
+
+Note that comparison does not affect overflow. */
+pub const CPX_IMM : u8 = 0xE0;
+pub const CPX_ZP : u8 = 0xE4;
+pub const CPX_ABS : u8 = 0xEC;
+
+/* CPY compares Y to a memory value, setting flags as appropriate but not
+modifying any registers. The comparison is implemented as a subtraction, 
+setting carry if there is no borrow, zero if the result is 0, and 
+negative if the result is negative. However, carry and zero are often 
+most easily remembered as inequalities.
+
+Note that comparison does not affect overflow */
+pub const CPY_IMM : u8 = 0xC0;
+pub const CPY_ZP : u8 = 0xC4;
+pub const CPY_ABS : u8 = 0xCC;
+
+// BRANCH
