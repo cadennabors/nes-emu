@@ -163,22 +163,30 @@ Opcode::new(0x5E, 3, 7, AddressingMode::ABSOLUTEx), // LSR absolute x
 
 Opcode::new(0x5F, 1, 1, AddressingMode::UNIMPLEMENTED),
 
-Opcode::new(0x60, bytes, cycles, addressing_mode),
-Opcode::new(0x61, bytes, cycles, addressing_mode),
-Opcode::new(0x62, bytes, cycles, addressing_mode),
-Opcode::new(0x63, bytes, cycles, addressing_mode),
-Opcode::new(0x64, bytes, cycles, addressing_mode),
-Opcode::new(0x65, bytes, cycles, addressing_mode),
-Opcode::new(0x66, bytes, cycles, addressing_mode),
-Opcode::new(0x67, bytes, cycles, addressing_mode),
-Opcode::new(0x68, bytes, cycles, addressing_mode),
-Opcode::new(0x69, bytes, cycles, addressing_mode),
-Opcode::new(0x6A, bytes, cycles, addressing_mode),
-Opcode::new(0x6B, bytes, cycles, addressing_mode),
-Opcode::new(0x6C, bytes, cycles, addressing_mode),
-Opcode::new(0x6D, bytes, cycles, addressing_mode),
-Opcode::new(0x6E, bytes, cycles, addressing_mode),
-Opcode::new(0x6F, bytes, cycles, addressing_mode),
+Opcode::new(0x60, 1, 6, AddressingMode::NONE), // RTS implied
+Opcode::new(0x61, 2, 6, AddressingMode::INDIRECTx), // ADC indirect x
+
+Opcode::new(0x62, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x63, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x64, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x65, 2, 3, AddressingMode::ZEROPAGE), // ADC zero page
+Opcode::new(0x66, 2, 5, AddressingMode::ZEROPAGE), // ROR zero page
+
+Opcode::new(0x67, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x68, 1, 4, AddressingMode::NONE), // PLA implied
+Opcode::new(0x69, 2, 2, AddressingMode::IMMEDIATE), // ADC immediate
+Opcode::new(0x6A, 1, 2, AddressingMode::ACCUMULATOR), // ROR accumulator
+
+Opcode::new(0x6B, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x6C, 3, 5, AddressingMode::INDIRECT), // JMP indirect
+Opcode::new(0x6D, 3, 4, AddressingMode::ABSOLUTE), // ADC absolute
+Opcode::new(0x6E, 3, 6, AddressingMode::ABSOLUTE), // ROR absolute
+
+Opcode::new(0x6F, 1, 1, AddressingMode::UNIMPLEMENTED),
+
 Opcode::new(0x70, bytes, cycles, addressing_mode),
 Opcode::new(0x71, bytes, cycles, addressing_mode),
 Opcode::new(0x72, bytes, cycles, addressing_mode),

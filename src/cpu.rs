@@ -18,6 +18,7 @@ pub enum AddressingMode {
     ABSOLUTE,
     ABSOLUTEx,
     ABSOLUTEy,
+    INDIRECT, // JMP ONLY
     INDIRECTx,
     INDIRECTy,
     NONE,
