@@ -50,3 +50,15 @@ pub const STX_ZP : u8 = 0x86;
 pub const STX_ZP_Y : u8 = 0x96;
 pub const STX_ABS : u8 = 0x8E;
 
+// LDX loads a memory value into the Y register.
+pub const LDY_IMM : u8 = 0xA0;
+pub const LDY_ZP : u8 = 0xA4;
+pub const LDY_ZP_X : u8 = 0xB4;
+pub const LDY_ABS : u8 = 0xAC;
+pub const LDY_ABS_X : u8 = 0xBC;
+
+// STY stores the Y register value into memory.
+pub const STY_ZP : u8 = 0x84;
+pub const STY_ZP_X : u8 = 0x94;
+pub const STY_ABS : u8 = 0x8C;
+
