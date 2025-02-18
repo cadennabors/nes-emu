@@ -320,4 +320,46 @@ pub const CPY_IMM : u8 = 0xC0;
 pub const CPY_ZP : u8 = 0xC4;
 pub const CPY_ABS : u8 = 0xCC;
 
-// BRANCH
+// --------------- NOT DOCUMENTING -----------
+
+// BRANCH 
+pub const BCC_REL : u8 = 0x90;
+pub const BCS_REL : u8 = 0xB0;
+pub const BEQ_REL : u8 = 0xF0;
+pub const BNE_REL : u8 = 0xD0;
+pub const BPL_REL : u8 = 0x10;
+pub const BMI_REL : u8 = 0x30;
+pub const BVC_REL : u8 = 0x50;
+pub const BVS_REL : u8 = 0x70;
+
+//JUMP 
+pub const JMP_ABS : u8 = 0x4C;
+pub const JMP_IND : u8 = 0x6C;
+
+pub const JSR_ABS : u8 = 0x20;
+
+pub const RTS_IMPL : u8 = 0x60;
+
+pub const BRK_IMPL : u8 = 0x00;
+
+pub const RTI_IMPL : u8 = 0x40;
+
+// STACK
+pub const PHA_IMPL : u8 = 0x48;
+pub const PLA_IMPL : u8 = 0x68;
+pub const PHP_IMPL : u8 = 0x08;
+pub const PLP_IMPL : u8 = 0x28;
+pub const TXS_IMPL : u8 = 0x9A;
+pub const TSX_IMPL : u8 = 0xBA;
+
+// FLAGS
+pub const CLC_IMPL : u8 = 0x18;
+pub const SEC_IMPL : u8 = 0x38;
+pub const CLI_IMPL : u8 = 0x58;
+pub const SEI_IMPL : u8 = 0x78;
+pub const CLD_IMPL : u8 = 0xD8;
+pub const SED_IMPL : u8 = 0xF8;
+pub const CLV_IMPL : u8 = 0xB8;
+
+// OTHER
+pub const NOP_IMPL : u8 = 0xEA;
