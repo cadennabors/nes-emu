@@ -46,3 +46,7 @@ pub const LDX_ABS : u8 = 0xAE;
 pub const LDX_ABS_Y : u8 = 0xBE;
 
 // STX stores the X register value into memory.
+pub const STX_ZP : u8 = 0x86;
+pub const STX_ZP_Y : u8 = 0x96;
+pub const STX_ABS : u8 = 0x8E;
+
