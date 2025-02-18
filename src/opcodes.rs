@@ -17,6 +17,7 @@ impl Opcode {
      }
     }
 }
+// Explanations taken from https://www.nesdev.org/wiki/Instruction_reference
 
 // ACCESS 
 // LDA loads a memory value into the accumulator.
@@ -222,3 +223,62 @@ pub const ROR_ABS : u8 = 0x6E;
 pub const ROR_ABS_X : u8 = 0x7E;
 
 // BITWISE
+/* This ANDs a memory value and the accumulator, bit by bit. If both 
+input bits are 1, the resulting bit is 1. Otherwise, it is 0.*/
+pub const AND_IMM : u8 = 0x29;
+pub const AND_ZP : u8 = 0x25;
+pub const AND_ZP_X : u8 = 0x35;
+pub const AND_ABS : u8 = 0x2D;
+pub const AND_ABS_X : u8 = 0x3D;
+pub const AND_ABS_Y : u8 = 0x39;
+pub const AND_IND_X : u8 = 0x21;
+pub const AND_IND_Y : u8 = 0x31;
+
+/* ORA inclusive-ORs a memory value and the accumulator, bit by bit. 
+If either input bit is 1, the resulting bit is 1. Otherwise, it is 0. */
+pub const ORA_IMM : u8 = 0x09;
+pub const ORA_ZP : u8 = 0x05;
+pub const ORA_ZP_X : u8 = 0x15;
+pub const ORA_ABS : u8 = 0x0D;
+pub const ORA_ABS_X : u8 = 0x1D;
+pub const ORA_ABS_Y : u8 = 0x19;
+pub const ORA_IND_X : u8 = 0x01;
+pub const ORA_IND_Y : u8 = 0x11;
+
+/* EOR exclusive-ORs a memory value and the accumulator, bit by bit. If the input bits are different, the resulting bit is 1. If they are the same, it is 0. This operation is also known as XOR.
+
+6502 doesn't have bitwise NOT instruction, but using EOR with value 
+$FF has the same behavior, inverting every bit of the other value. 
+In fact, EOR can be thought of as NOT with a bitmask; all of the 1 
+bits in one value have the effect of inverting the corresponding bit
+in the other value, while 0 bits do nothing. */
+pub const EOR_IMM : u8 = 0x49;
+pub const EOR_ZP : u8 = 0x45;
+pub const EOR_ZP_X : u8 = 0x55;
+pub const EOR_ABS : u8 = 0x4D;
+pub const EOR_ABS_X : u8 = 0x5D;
+pub const EOR_ABS_Y : u8 = 0x59;
+pub const EOR_IND_X : u8 = 0x41;
+pub const EOR_IND_Y : u8 = 0x51;
+
+/* BIT modifies flags, but does not change memory or registers. 
+The zero flag is set depending on the result of the accumulator AND 
+memory value, effectively applying a bitmask and then checking if any 
+bits are set. Bits 7 and 6 of the memory value are loaded directly into
+the negative and overflow flags, allowing them to be easily checked
+without having to load a mask into A.
+
+Because BIT only changes CPU flags, it is sometimes used to 
+trigger the read side effects of a hardware register without 
+clobbering any CPU registers, or even to waste cycles as a 
+3-cycle NOP. As an advanced trick, it is occasionally used to hide a 
+1- or 2-byte instruction in its operand that is only executed if jumped 
+to directly, allowing two code paths to be interleaved. However, 
+because the instruction in the operand is treated as an address from 
+which to read, this carries risk of triggering side effects if it reads 
+a hardware register. This trick can be useful when working under tight 
+constraints on space, time, or register usage. */
+pub const BIT_ZP : u8 = 0x24;
+pub const BIT_ABS : u8 = 0x2C;
+
+// COMPARE
