@@ -34,7 +34,7 @@ impl CPU {
         loop {
             let read_code = self.read(self.program_counter, None);
             self.program_counter += 1;
-            
+
         }
     }
 
@@ -54,54 +54,22 @@ impl CPU {
         return self.bus.read(addr, _bReadOnly);
     }
 // ----------------STATUS----------------------
-fn set_carry_bit (&mut self) {
-    self.status |= 0b1000_0000
+const CARRY_BIT : u8 = 0b1000_0000;
+const ZERO_BIT : u8 = 0b1000_0000;
+const DISABLE_INTERRUPTS_BIT : u8 = 0b1000_0000;
+const DECIMAL_MODE_BIT : u8 = 0b1000_0000;
+const BREAK_BIT : u8 = 0b1000_0000;
+const UNUSED_BIT : u8 = 0b1000_0000;
+const OVERFLOW_BIT : u8 = 0b1000_0000;
+const NEGATIVE_BIT : u8 = 0b1000_0000;
+
+fn set_status_bit (&mut self, bit : u8) {
+    self.status |= bit
 }
-fn clear_carry_bit (&mut self) {
-    self.status &= !0b1000_0000
+fn clear_status_bit (&mut self, bit : u8) {
+    self.status &= !bit
 }
-fn set_zero_bit (&mut self) {
-    self.status |= 0b0100_0000
-}
-fn clear_zero_bit (&mut self) {
-    self.status &= !0b0100_0000
-}
-fn set_disable_interrupts_bit (&mut self) {
-    self.status |= 0b0010_0000
-}
-fn clear_disable_interrupts_bit (&mut self) {
-    self.status &= !0b0010_0000
-}
-fn set_decimal_bit (&mut self) {
-    self.status |= 0b0001_0000
-}
-fn clear_decimal_bit (&mut self) {
-    self.status &= !0b0001_0000
-}
-fn set_break_bit (&mut self) {
-    self.status |= 0b0000_1000
-}
-fn clear_break_bit (&mut self) {
-    self.status &= !0b0000_1000
-}
-fn set_unused_bit (&mut self) {
-    self.status |= 0b0000_0100
-}
-fn clear_unused_bit (&mut self) {
-    self.status &= !0b0000_0100
-}
-fn set_overflow_bit (&mut self) {
-    self.status |= 0b0000_0010
-}
-fn clear_overflow_bit (&mut self) {
-    self.status &= !0b0000_0010
-}
-fn set_negative_bit (&mut self) {
-    self.status |= 0b0000_0001
-}
-fn clear_negative_bit (&mut self) {
-    self.status &= !0b0000_0001
-}
+
 }
 
 // C - Carry Bit 0b1000_0000
