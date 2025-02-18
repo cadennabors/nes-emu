@@ -91,22 +91,30 @@ Opcode::new(0x2E, 3, 6, AddressingMode::ABSOLUTE), // ROL absolute
 
 Opcode::new(0x2F, 1, 1, AddressingMode::UNIMPLEMENTED),
 
-Opcode::new(0x30, bytes, cycles, addressing_mode),
-Opcode::new(0x31, bytes, cycles, addressing_mode),
-Opcode::new(0x32, bytes, cycles, addressing_mode),
-Opcode::new(0x33, bytes, cycles, addressing_mode),
-Opcode::new(0x34, bytes, cycles, addressing_mode),
-Opcode::new(0x35, bytes, cycles, addressing_mode),
-Opcode::new(0x36, bytes, cycles, addressing_mode),
-Opcode::new(0x37, bytes, cycles, addressing_mode),
-Opcode::new(0x38, bytes, cycles, addressing_mode),
-Opcode::new(0x39, bytes, cycles, addressing_mode),
-Opcode::new(0x3A, bytes, cycles, addressing_mode),
-Opcode::new(0x3B, bytes, cycles, addressing_mode),
-Opcode::new(0x3C, bytes, cycles, addressing_mode),
-Opcode::new(0x3D, bytes, cycles, addressing_mode),
-Opcode::new(0x3E, bytes, cycles, addressing_mode),
-Opcode::new(0x3F, bytes, cycles, addressing_mode),
+Opcode::new(0x30, 2, 2 /* VARIES */, AddressingMode::RELATIVE), // BMI relative
+Opcode::new(0x31, 2, 5 /* VARIES */, AddressingMode::INDIRECTy), // AND indirect y
+
+Opcode::new(0x32, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x33, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x34, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x35, 2, 4, AddressingMode::ZEROPAGEx), // AND zero page x
+Opcode::new(0x36, 2, 6, AddressingMode::ZEROPAGEy), // ROL zero page x
+
+Opcode::new(0x37, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x38, 1, 2, AddressingMode::NONE), // SEC implied
+Opcode::new(0x39, 3, 4 /* VARIES */, AddressingMode::ABSOLUTEy), // AND absolute y
+
+Opcode::new(0x3A, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x3B, 1, 1, AddressingMode::UNIMPLEMENTED),
+Opcode::new(0x3C, 1, 1, AddressingMode::UNIMPLEMENTED),
+
+Opcode::new(0x3D, 3, 4 /* VARIES */, AddressingMode::ABSOLUTEx), // AND absolute x
+Opcode::new(0x3E, 3, 7, AddressingMode::ABSOLUTEy), // ROL absolute x
+
+Opcode::new(0x3F, 1, 1, AddressingMode::UNIMPLEMENTED),
+
 Opcode::new(0x40, bytes, cycles, addressing_mode),
 Opcode::new(0x41, bytes, cycles, addressing_mode),
 Opcode::new(0x42, bytes, cycles, addressing_mode),
