@@ -155,3 +155,70 @@ pub const INY : u8 = 0xC8;
 pub const DEY : u8 = 0x88;
 
 // SHIFT
+/* ASL shifts all of the bits of a memory value or the accumulator one 
+position to the left, moving the value of each bit into the next bit. 
+Bit 7 is shifted into the carry flag, and 0 is shifted into bit 0. 
+This is equivalent to multiplying an unsigned value by 2, with carry
+indicating overflow.
+
+This is a read-modify-write instruction, meaning that its addressing 
+modes that operate on memory first write the original value back to 
+memory before the modified value. This extra write can matter if 
+targeting a hardware register. */
+pub const ASL_ACC : u8 = 0x0A;
+pub const ASL_ZP : u8 = 0x06;
+pub const ASL_ZP_X : u8 = 0x16;
+pub const ASL_ABS : u8 = 0x0E;
+pub const ASL_ABS_X : u8 = 0x1E;
+
+/* LSR shifts all of the bits of a memory value or the accumulator one 
+position to the right, moving the value of each bit into the next bit.
+0 is shifted into bit 7, and bit 0 is shifted into the carry flag. 
+This is equivalent to dividing an unsigned value by 2 and rounding down, 
+with the remainder in carry.
+
+This is a read-modify-write instruction, meaning that its addressing 
+modes that operate on memory first write the original value back to 
+memory before the modified value. This extra write can matter if 
+targeting a hardware register. */
+pub const LSR_ACC : u8 = 0x4A;
+pub const LSR_ZP : u8 = 0x46;
+pub const LSR_ZP_X : u8 = 0x56;
+pub const LSR_ABS : u8 = 0x4E;
+pub const LSR_ABS_X : u8 = 0x5E;
+
+/* ROL shifts a memory value or the accumulator to the left, moving the 
+value of each bit into the next bit and treating the carry flag as 
+though it is both above bit 7 and below bit 0. Specifically, the value 
+in carry is shifted into bit 0, and bit 7 is shifted into carry. 
+Rotating left 9 times simply returns the value and carry back to their 
+original state.
+
+This is a read-modify-write instruction, meaning that its addressing 
+modes that operate on memory first write the original value back to 
+memory before the modified value. This extra write can matter if 
+targeting a hardware register. */
+pub const ROL_ACC : u8 = 0x2A;
+pub const ROL_ZP : u8 = 0x26;
+pub const ROL_ZP_X : u8 = 0x36;
+pub const ROL_ABS : u8 = 0x2E;
+pub const ROL_ABS_X : u8 = 0x3E;
+
+/* ROR shifts a memory value or the accumulator to the right, moving the 
+value of each bit into the next bit and treating the carry flag as 
+though it is both above bit 7 and below bit 0. Specifically, the value 
+in carry is shifted into bit 7, and bit 0 is shifted into carry. 
+Rotating right 9 times simply returns the value and carry back to their 
+original state.
+
+This is a read-modify-write instruction, meaning that its addressing 
+modes that operate on memory first write the original value back to 
+memory before the modified value. This extra write can matter if 
+targeting a hardware register.*/
+pub const ROR_ACC : u8 = 0x6A;
+pub const ROR_ZP : u8 = 0x66;
+pub const ROR_ZP_X : u8 = 0x76;
+pub const ROR_ABS : u8 = 0x6E;
+pub const ROR_ABS_X : u8 = 0x7E;
+
+// BITWISE
