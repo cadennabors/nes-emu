@@ -9,14 +9,19 @@ pub struct CPU {
     bus : Bus,
 }
 pub enum AddressingMode {
+    ACCUMULATOR,
+    RELATIVE,
     IMMEDIATE,
     ZEROPAGE,
     ZEROPAGEx,
+    ZEROPAGEy,
     ABSOLUTE,
     ABSOLUTEx,
     ABSOLUTEy,
     INDIRECTx,
     INDIRECTy,
+    NONE,
+    UNIMPLEMENTED,
 }
 
 impl CPU {
