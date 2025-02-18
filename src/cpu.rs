@@ -31,7 +31,11 @@ impl CPU {
     }
 
     pub fn interpret(&mut self, program: Vec<u8>) {
- 
+        loop {
+            let read_code = self.read(self.program_counter, None);
+            self.program_counter += 1;
+            
+        }
     }
 
     fn get_input_address(&self, mode: AddressingMode) -> u16 {
