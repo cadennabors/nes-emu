@@ -18,25 +18,38 @@ impl Opcode {
     }
 }
 
-pub const OPCODE_TABLE : [Opcode] = [
+pub const OPCODE_TABLE : [Opcode ; 256] = [
 Opcode::new(0x00, 1, 7, AddressingMode::NONE), // BRK implied
 Opcode::new(0x01, 2, 6, AddressingMode::INDIRECTx), // ORA indirect (x-indexed)
-// 3 Unimplemented 
+
+Opcode::new(0x02, 1, 1, AddressingMode::UNIMPLEMENTED), 
+Opcode::new(0x03, 1, 1, AddressingMode::UNIMPLEMENTED), 
+Opcode::new(0x04, 1, 1, AddressingMode::UNIMPLEMENTED), 
+
 Opcode::new(0x05, 2, 3, AddressingMode::ZEROPAGE), // ORA zero page
 Opcode::new(0x06, 2, 5, AddressingMode::ZEROPAGE), // ASL zero page
-// 1 Unimplemented
+
+Opcode::new(0x07, 1, 1, AddressingMode::UNIMPLEMENTED), 
+
 Opcode::new(0x08, 1, 3, AddressingMode::NONE), // PHP implied
 Opcode::new(0x09, 2, 2, AddressingMode::IMMEDIATE), // ORA immediate
 Opcode::new(0x0A, 1, 2, AddressingMode::ACCUMULATOR), // ASL accumulator
-// 2 Unimplemented
+
+Opcode::new(0x0B, 1, 1, AddressingMode::UNIMPLEMENTED), 
+Opcode::new(0x0C, 1, 1, AddressingMode::UNIMPLEMENTED), 
+
 Opcode::new(0x0D, 3, 4, AddressingMode::ABSOLUTE), // ORA absolute
 Opcode::new(0x0E, 3, 6, AddressingMode::ABSOLUTE), // ASL absolute
-// 1 Unimplemented
-Opcode::new(0x10, bytes, cycles, addressing_mode),
-Opcode::new(0x11, bytes, cycles, addressing_mode),
-Opcode::new(0x12, bytes, cycles, addressing_mode),
-Opcode::new(0x13, bytes, cycles, addressing_mode),
-Opcode::new(0x14, bytes, cycles, addressing_mode),
+
+Opcode::new(0x0F, 1, 1, AddressingMode::UNIMPLEMENTED), 
+
+Opcode::new(0x10, 2, 2 /* VARIED */, AddressingMode::RELATIVE), //BPL relative
+Opcode::new(0x11, 2, 5 /* VARIED */, AddressingMode::INDIRECTy), // ORA indirect
+
+Opcode::new(0x12, 1, 1, AddressingMode::UNIMPLEMENTED), 
+Opcode::new(0x13, 1, 1, AddressingMode::UNIMPLEMENTED), 
+Opcode::new(0x14, 1, 1, AddressingMode::UNIMPLEMENTED), 
+
 Opcode::new(0x15, bytes, cycles, addressing_mode),
 Opcode::new(0x16, bytes, cycles, addressing_mode),
 Opcode::new(0x17, bytes, cycles, addressing_mode),
