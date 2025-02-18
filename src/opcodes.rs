@@ -62,3 +62,17 @@ pub const STY_ZP : u8 = 0x84;
 pub const STY_ZP_X : u8 = 0x94;
 pub const STY_ABS : u8 = 0x8C;
 
+// TRANSFER
+// TAX copies the accumulator value to the X register.
+pub const TAX : u8 = 0xAA;
+
+// TXA copies the X register value to the accumulator.
+pub const TXA : u8 = 0x8A;
+
+// TAY copies the accumulator value to the Y register.
+pub const TAY : u8 = 0xA8;
+
+// TYA copies the Y register value to the accumulator.
+pub const TYA : u8 = 0x98;
+
+// ARITHMETIC
