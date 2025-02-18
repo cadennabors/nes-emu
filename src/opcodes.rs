@@ -405,7 +405,24 @@ Op::new(ASL_ABS_X, 3, 7, ABSOLUTEx),
 ILLEGAL
 
 //2X
+Op::new(JSR_ABS, 3, 6, ABSOLUTE),
+Op::new(AND_IND_X, 2, 6, INDIRECTx),
+ILLEGAL,
+ILLEGAL,
+Op::new(BIT_ZP, 2, 3, ZEROPAGE),
+Op::new(AND_ZP, 2, 3, ZEROPAGE),
+Op::new(ROL_ZP, 2, 5, ZEROPAGE),
+ILLEGAL,
+Op::new(PLP_IMPL, 1, 4, ZERO),
+Op::new(AND_IMM, 2, 2, IMMEDIATE),
+Op::new(ROL_ACC, 1, 2, ACCUMULATOR),
+ILLEGAL,
+Op::new(BIT_ABS, 3, 4, ABSOLUTE),
+Op::new(AND_ABS, 3, 4, ABSOLUTE),
+Op::new(ROL_ABS, 3, 6, ABSOLUTE),
+ILLEGAL,
 
+//3x
 
 //Op::new(),
 ];
