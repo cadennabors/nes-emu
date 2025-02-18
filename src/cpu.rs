@@ -8,18 +8,14 @@ pub struct CPU {
     bus : Bus,
 }
 pub enum AddressingMode {
-    ACCUMULATOR,
+    IMMEDIATE,
+    ZEROPAGE,
+    ZEROPAGEx,
     ABSOLUTE,
     ABSOLUTEx,
     ABSOLUTEy,
-    IMMEDIATE,
-    INDIRECT,
     INDIRECTx,
     INDIRECTy,
-    RELATIVE,
-    ZEROPAGE,
-    ZEROPAGEx,
-    ZEROPAGEy,
 }
 
 impl CPU {
@@ -36,6 +32,14 @@ impl CPU {
 
     pub fn interpret(&mut self, program: Vec<u8>) {
  
+    }
+
+    fn get_input_address(&self, mode: AddressingMode) -> u16 {
+        0xaaaa
+    }
+
+    fn ADC(&mut self, mode : AddressingMode) {
+
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
