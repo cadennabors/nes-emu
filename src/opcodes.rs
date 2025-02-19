@@ -8,7 +8,7 @@ pub struct Op {
 }
 
 impl Op {
-    pub fn new(const_name : u8, bytes : u8, cycles : u8, addressing_mode : AddressingMode) -> Self {
+    pub const fn new(const_name : u8, bytes : u8, cycles : u8, addressing_mode : AddressingMode) -> Self {
         Op {
         const_name,
         bytes,
