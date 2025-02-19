@@ -423,6 +423,22 @@ Op::new(ROL_ABS, 3, 6, ABSOLUTE),
 ILLEGAL,
 
 //3x
+Op::new(BMI_REL, 2, 2 /* VAIREs */, RELATIVE),
+Op::new(AND_IND_Y, 2, 5 /* VARIES */, INDIRECTy),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(AND_ZP_X, 2, 4, ZEROPAGEx),
+Op::new(ROL_ZP_X, 2, 6, ZEROPAGEx),
+ILLEGAL
+Op::new(SEC_IMPL, 1, 2, ZERO),
+Op::new(AND_ABS_Y, 3, 4 /* VARIES */, ABSOLUTEy),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(AND_ABS_X, 3, 4 /* VARIES */, ABSOLUTEx),
+Op::new(ROL_ABS_X, 3, 7, ABSOLUTEx),
+ILLEGAL,
 
 //Op::new(),
 ];
