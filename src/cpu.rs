@@ -57,18 +57,25 @@ impl CPU {
         0x00
     }
 
-    fn get_input_address(&self, mode: &AddressingMode) -> u16 {
+    fn get_addressed_data(&self, mode: &AddressingMode) -> u8 {
         match mode {
             AddressingMode::ACCUMULATOR => {
-                return self.register_a as u16
+                return self.register_a
             }
             _ => panic!()
         }
-        0xaaaa
+        
     }
 
     fn LDA(&mut self, mode : &AddressingMode) {
-        let loaded_data = self.get_input_address(mode);
+        // TODO : VERIFY THIS IS RGIHT
+        let loaded_data = self.get_addressed_data(mode);
+        self.register_a = loaded_data;
+        if (loaded_data == 0x00) {
+            self.set_status_bit(Self::ZERO_BIT);
+        }
+        // TODO - SET NEGATIVE BIT TO BIT 7
+
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
