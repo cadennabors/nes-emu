@@ -58,11 +58,17 @@ impl CPU {
     }
 
     fn get_input_address(&self, mode: &AddressingMode) -> u16 {
+        match mode {
+            AddressingMode::ACCUMULATOR => {
+                return self.register_a as u16
+            }
+            _ => panic!()
+        }
         0xaaaa
     }
 
     fn LDA(&mut self, mode : &AddressingMode) {
-        ITEM_TABLE[]
+        let loaded_data = self.get_input_address(mode);
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
