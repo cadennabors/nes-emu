@@ -41,16 +41,28 @@ impl CPU {
         loop {
             let read_code = self.read(self.program_counter, None);
             self.program_counter += 1;
+            let cycles_taken = self.run_operation(read_code);
+
 
         }
     }
 
-    fn get_input_address(&self, mode: AddressingMode) -> u16 {
+    fn run_operation(&mut self, operation : u8) -> u8 {
+        match operation {
+            LDA_IMM | LDA_ZP | LDA_ZP_X | LDA_ABS | LDA_ABS_X | LDA_ABS_Y | 
+            LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation as usize].addressing_mode),
+            _ => panic!()
+        }
+
+        0x00
+    }
+
+    fn get_input_address(&self, mode: &AddressingMode) -> u16 {
         0xaaaa
     }
 
-    fn ADC(&mut self, mode : AddressingMode) {
-
+    fn LDA(&mut self, mode : &AddressingMode) {
+        ITEM_TABLE[]
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
