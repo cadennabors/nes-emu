@@ -18,6 +18,7 @@ impl Op {
     }
 }
 // Explanations taken from https://www.nesdev.org/wiki/Instruction_reference
+// Referenced from https://web.archive.org/web/20221112231348if_/http://archive.6502.org/datasheets/rockwell_r650x_r651x.pdf 
 
 // ACCESS 
 // LDA loads a memory value into the accumulator.
@@ -439,6 +440,45 @@ ILLEGAL,
 Op::new(AND_ABS_X, 3, 4 /* VARIES */, ABSOLUTEx),
 Op::new(ROL_ABS_X, 3, 7, ABSOLUTEx),
 ILLEGAL,
+
+//4x
+Op::new(RTI_IMPL, 1, 6, ZERO),
+Op::new(EOR_IND_X, 2, 6, INDIRECTx),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(EOR_ZP, 2, 3, ZEROPAGE),
+Op::new(LSR_ZP, 2, 5, ZEROPAGE),
+ILLEGAL,
+Op::new(PHA_IMPL, 1, 3, ZERO),
+Op::new(EOR_IMM, 2, 2, IMMEDIATE),
+Op::new(LSR_ACC, 1, 2, ACCUMULATOR),
+ILLEGAL,
+Op::new(JMP_ABS, 3, 3, ABSOLUTE),
+Op::new(EOR_ABS, 3, 4, ABSOLUTE),
+Op::new(LSR_ABS, 3, 6, ABSOLUTE),
+ILLEGAL,
+
+//5x
+Op::new(BVC_REL, 2, 2 /*vaires */, RELATIVE),
+Op::new(EOR_IND_Y, 2, 5 /*var */, INDIRECTy),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(EOR_ZP_X, 2, 4, ZEROPAGEx),
+Op::new(LSR_ZP_X, 2, 6, ZEROPAGEx),
+ILLEGAL,
+Op::new(CLI_IMPL, 1, 2, ZERO),
+Op::new(EOR_ABS_Y, 3, 4 /*varies */, ABSOLUTEy),
+ILLEGAL,
+ILLEGAL,
+ILLEGAL,
+Op::new(EOR_ABS_X, 3, 4, /* varies */ ABSOLUTEx),
+Op::new(LSR_ABS_X, 3, 7, ABSOLUTEx),
+ILLEGAL
+
+//6x
+
 
 //Op::new(),
 ];
