@@ -513,6 +513,23 @@ Op::new(ADC_ABS_X, 3, 4, /*var */ ABSOLUTEx),
 Op::new(ROR_ABS_X, 3, 7, ABSOLUTEx),
 ILLEGAL,
 
+//8x
+ILLEGAL,
+Op::new(STA_IND_X, 2, 6, INDIRECTx),
+ILLEGAL,
+ILLEGAL,
+Op::new(STY_ZP, 2, 3, ZEROPAGE),
+Op::new(STA_ZP, 2, 3, ZEROPAGE),
+Op::new(STA_ZP, 2, 3, ZEROPAGE),
+ILLEGAL,
+Op::new(DEY, 1, 2, ZERO),
+ILLEGAL,
+Op::new(TXA, 1, 2, ZERO),
+ILLEGAL,
+Op::new(STY_ABS, 3, 4, ABSOLUTE),
+Op::new(STA_ABS, 3, 4, ABSOLUTE),
+Op::new(STX_ABS, 3, 4, ABSOLUTE),
+ILLEGAL,
 
 //Op::new(),
 ];
