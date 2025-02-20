@@ -51,20 +51,32 @@ impl CPU {
         match operation {
             LDA_IMM | LDA_ZP | LDA_ZP_X | LDA_ABS | LDA_ABS_X | LDA_ABS_Y | 
             LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation as usize].addressing_mode),
+            STA_ZP | STA_ZP_X | STA_ABS | STA_ABS_X | STA_ABS_Y | 
+            STA_IND_X | STA_IND_Y => self.STA(&ITEM_TABLE[operation as usize].addressing_mode),
             _ => panic!()
         }
 
         0x00
     }
 
-    fn get_addressed_data(&self, mode: &AddressingMode) -> u8 {
+    fn get_addressed_data(&mut self, mode: &AddressingMode) -> u8 {
         match mode {
             AddressingMode::ACCUMULATOR => {
                 return self.register_a
             }
+            AddressingMode::IMMEDIATE => {
+                let value = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                return value
+            }
             _ => panic!()
         }
         
+    }
+
+    fn get_address_from_mode(&mut self, mode: &AddressingMode) -> u16 {
+        0x0000
+        // IMPLEMENT
     }
 
     fn LDA(&mut self, mode : &AddressingMode) {
@@ -81,6 +93,11 @@ impl CPU {
             self.clear_status_bit(Self::NEGATIVE_BIT);
         }
 
+    }
+
+    fn STA(&mut self, mode : &AddressingMode) {
+        let loaded_data = self.get_addressed_data(mode);
+        self.write(loaded_data, self.register_a);
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
