@@ -68,13 +68,18 @@ impl CPU {
     }
 
     fn LDA(&mut self, mode : &AddressingMode) {
-        // TODO : VERIFY THIS IS RGIHT
         let loaded_data = self.get_addressed_data(mode);
         self.register_a = loaded_data;
-        if (loaded_data == 0x00) {
+        if loaded_data == 0x00 {
             self.set_status_bit(Self::ZERO_BIT);
+        } 
+
+        if (loaded_data & 0b1000_0000) != 0 {
+            self.set_status_bit(Self::NEGATIVE_BIT);
         }
-        // TODO - SET NEGATIVE BIT TO BIT 7
+        else {
+            self.clear_status_bit(Self::NEGATIVE_BIT);
+        }
 
     }
 
