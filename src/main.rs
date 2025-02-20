@@ -6,5 +6,6 @@ pub mod opcodes;
 
 fn main() {
     let bus_ref = bus::Bus::new();
-    let cpu_ref = cpu::CPU::new(bus_ref);
+    let mut cpu_ref = cpu::CPU::new(bus_ref);
+    cpu_ref.interpret();
 }

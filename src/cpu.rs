@@ -37,10 +37,13 @@ impl CPU {
         }
     }
 
-    pub fn interpret(&mut self, program: Vec<u8>) {
+    pub fn interpret(&mut self) {
+        self.bus.write(0x0000, LDA_IMM);
+        self.bus.write(0x0001, 4);
         loop {
             let read_code = self.read(self.program_counter, None);
             self.program_counter += 1;
+            println!("Register A: {}\nRegister X : {}", self.register_a, self.register_x);
             let cycles_taken = self.run_operation(read_code);
 
 
