@@ -96,7 +96,7 @@ impl CPU {
     }
 
     fn STA(&mut self, mode : &AddressingMode) {
-        let loaded_data = self.get_addressed_data(mode);
+        let loaded_data = self.get_address_from_mode(mode);
         self.write(loaded_data, self.register_a);
     }
 
