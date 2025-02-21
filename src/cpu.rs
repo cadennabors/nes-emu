@@ -86,6 +86,14 @@ impl CPU {
                 let address = self.get_address_from_mode(mode);
                 self.read(address, None)
             }
+            AddressingMode::ZEROPAGEx => {
+                let address = self.get_address_from_mode(mode);
+                self.read(address, None)
+            }
+            AddressingMode::ZEROPAGEy => {
+                let address = self.get_address_from_mode(mode);
+                self.read(address, None)
+            }
             _ => panic!()
         }
         
