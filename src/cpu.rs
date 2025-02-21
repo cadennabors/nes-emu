@@ -78,7 +78,16 @@ impl CPU {
     }
 
     fn get_address_from_mode(&mut self, mode: &AddressingMode) -> u16 {
-        0x0000
+        match mode {
+            AddressingMode::ZEROPAGE => {
+                self.read(self.program_counter, None) as u16
+            }
+            AddressingMode::ZEROPAGEx => {
+                self.register_x.wrapping_add(self.read(self.program_counter, None)) as u16
+            }
+            _ => panic!()
+        }
+        
         // IMPLEMENT
     }
 
