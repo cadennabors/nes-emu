@@ -125,6 +125,9 @@ impl CPU {
     fn read(&mut self,addr : u16, _bReadOnly : Option<bool>) -> u8 {
         return self.bus.read(addr, _bReadOnly);
     }
+    fn combine_u8(a : u8, b : u8) -> u16 {
+        ((a as u16) << 8) | b as u16
+    }
 // ----------------STATUS----------------------
 const CARRY_BIT : u8 = 0b1000_0000;
 const ZERO_BIT : u8 = 0b1000_0000;
