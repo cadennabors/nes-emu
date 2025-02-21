@@ -41,25 +41,8 @@ impl CPU {
             bus,
         }
     }
-/*pub struct Bus {
-    ram : [u8; 64 * 1024],
-    rom : [u8; 64 * 1024],
-}
-/*         self.bus.write(0x0000, LDA_IMM);
-        self.bus.write(0x0001, 4);
-        self.bus.write(0x0002, STA_ZP);
-        self.bus.write(0x0003, 0x00);
-        self.bus.write(0x0004, LDA_IMM);
-        self.bus.write(0x0005, 7);
-        self.bus.write(0x0006, LDA_ZP);
-        self.bus.write(0x0007, 0x00); */
-impl Bus {
-    pub fn new() -> Self {
-        Bus {
-            ram: [0; 64 * 1024],
-            rom: [0; 64 * 1024],
-        }
-    } */
+
+    
     pub fn interpret(&mut self) {
         let program : &[u8] = &[LDA_IMM, 4, STA_ZP, 0x00, LDA_IMM, 7, LDA_ZP, 0x00];
         self.bus.load_program(program);
