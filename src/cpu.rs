@@ -91,6 +91,27 @@ impl CPU {
             AddressingMode::ZEROPAGEy => {
                 self.register_y.wrapping_add(self.read(self.program_counter, None)) as u16
             }
+            AddressingMode::ABSOLUTE => {
+                let a = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                let b = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                Self::combine_u8(a, b)
+            }
+            AddressingMode::ABSOLUTEx => {
+                let a = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                let b = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                Self::combine_u8(a, b).wrapping_add(self.register_x as u16)
+            }
+            AddressingMode::ABSOLUTEy => {
+                let a = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                let b = self.read(self.program_counter, None);
+                self.program_counter += 1;
+                Self::combine_u8(a, b).wrapping_add(self.register_y as u16)
+            }
             _ => panic!()
         }
         
