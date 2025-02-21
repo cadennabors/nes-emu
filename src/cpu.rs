@@ -64,7 +64,7 @@ impl CPU {
         match operation {
             LDA_IMM | LDA_ZP | LDA_ZP_X | LDA_ABS | LDA_ABS_X | LDA_ABS_Y | 
             LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation as usize].addressing_mode),
-            
+
             STA_ZP | STA_ZP_X | STA_ABS | STA_ABS_X | STA_ABS_Y | 
             STA_IND_X | STA_IND_Y => self.STA(&ITEM_TABLE[operation as usize].addressing_mode),
             _ => panic!()
@@ -83,18 +83,11 @@ impl CPU {
                 self.program_counter += 1;
                 return value
             }
-            AddressingMode::ZEROPAGE => {
+            AddressingMode::ZEROPAGE | AddressingMode::ZEROPAGEx | AddressingMode::ZEROPAGEy | AddressingMode::INDIRECTx | AddressingMode::INDIRECTy => {
                 let address = self.get_address_from_mode(mode);
                 self.read(address, None)
             }
-            AddressingMode::ZEROPAGEx => {
-                let address = self.get_address_from_mode(mode);
-                self.read(address, None)
-            }
-            AddressingMode::ZEROPAGEy => {
-                let address = self.get_address_from_mode(mode);
-                self.read(address, None)
-            }
+            
             _ => panic!()
         }
         
@@ -139,6 +132,16 @@ impl CPU {
                 self.program_counter += 1;
                 Self::combine_u8(a, b).wrapping_add(self.register_y as u16)
             }
+            AddressingMode::INDIRECTx => {
+                let address = self.read(self.program_counter, None);
+                let address_2 = address.wrapping_add(self.register_x);
+                self.get_address_indirect(address_2 as u16)
+            }
+            AddressingMode::INDIRECTy => {
+                let address = self.read(self.program_counter, None);
+                let address_2 = address.wrapping_add(self.register_y);
+                self.get_address_indirect(address_2 as u16)
+            }
             _ => panic!()
         }
         
@@ -175,6 +178,11 @@ impl CPU {
     }
     fn combine_u8(a : u8, b : u8) -> u16 {
         ((a as u16) << 8) | b as u16
+    }
+    fn get_address_indirect(&mut self, addr : u16) -> u16 {
+        let val1 = self.bus.read(addr, None);
+        let val2 = self.bus.read(addr + 1, None);
+        Self::combine_u8(val1, val2)
     }
 // ----------------STATUS----------------------
 const CARRY_BIT : u8 = 0b1000_0000;
