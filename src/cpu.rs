@@ -42,12 +42,20 @@ impl CPU {
     pub fn interpret(&mut self) {
         self.bus.write(0x0000, LDA_IMM);
         self.bus.write(0x0001, 4);
+        self.bus.write(0x0002, STA_ZP);
+        self.bus.write(0x0003, 0x00);
+        self.bus.write(0x0004, LDA_IMM);
+        self.bus.write(0x0005, 7);
+        self.bus.write(0x0006, LDA_ZP);
+        self.bus.write(0x0007, 0x00);
+
+        println!("Register A: {}\nRegister X : {}", self.register_a, self.register_x);
         loop {
             let read_code = self.read(self.program_counter, None);
+            println!("{}", read_code);
             self.program_counter += 1;
-            println!("Register A: {}\nRegister X : {}", self.register_a, self.register_x);
             let cycles_taken = self.run_operation(read_code);
-
+            println!("Register A: {}\nRegister X : {}", self.register_a, self.register_x);
 
         }
     }
@@ -74,6 +82,10 @@ impl CPU {
                 self.program_counter += 1;
                 return value
             }
+            AddressingMode::ZEROPAGE => {
+                let address = self.get_address_from_mode(mode);
+                self.read(address, None)
+            }
             _ => panic!()
         }
         
@@ -82,14 +94,20 @@ impl CPU {
     fn get_address_from_mode(&mut self, mode: &AddressingMode) -> u16 {
         match mode {
             AddressingMode::ZEROPAGE => {
-                self.read(self.program_counter, None) as u16
+               let val = self.read(self.program_counter, None) as u16;
+               self.program_counter += 1;
+               val
                 // $0000 to $00FF
             }
             AddressingMode::ZEROPAGEx => {
-                self.register_x.wrapping_add(self.read(self.program_counter, None)) as u16
+                let val = self.register_x.wrapping_add(self.read(self.program_counter, None)) as u16;
+                self.program_counter += 1;
+                val
             }
             AddressingMode::ZEROPAGEy => {
-                self.register_y.wrapping_add(self.read(self.program_counter, None)) as u16
+                let val = self.register_y.wrapping_add(self.read(self.program_counter, None)) as u16;
+                self.program_counter += 1;
+                val
             }
             AddressingMode::ABSOLUTE => {
                 let a = self.read(self.program_counter, None);
