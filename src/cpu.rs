@@ -3,6 +3,7 @@ use crate ::opcodes::*;
 pub struct CPU {
     pub register_a: u8,
     pub register_x: u8,
+    pub register_y: u8,
     pub status: u8,
     pub stkp : u8,
     pub program_counter: u16,
@@ -84,6 +85,9 @@ impl CPU {
             }
             AddressingMode::ZEROPAGEx => {
                 self.register_x.wrapping_add(self.read(self.program_counter, None)) as u16
+            }
+            AddressingMode::ZEROPAGEy => {
+                self.register_y.wrapping_add(self.read(self.program_counter, None)) as u16
             }
             _ => panic!()
         }
