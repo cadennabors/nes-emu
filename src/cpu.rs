@@ -36,7 +36,7 @@ impl CPU {
             register_x: 0,
             register_y: 0,
             status: 0,
-            stkp : 0,
+            stkp : 0xFF,
             program_counter: 0,
             bus,
         }
@@ -79,11 +79,7 @@ impl CPU {
 
             TAY => self.TAY(),
 
-            TSX_IMPL => self.TSX(),
-
             TXA => self.TXA(),
-
-            TXS_IMPL => self.TXS(),
 
             TYA => self.TYA(),
 
@@ -238,18 +234,10 @@ impl CPU {
         Self::set_negative_and_zero_bits(self, self.register_a);
     }
 
-    fn TSX(&mut self) {
-        panic!();
-    }
-
     fn TXA(&mut self) {
         self.register_a = self.register_x;
 
         Self::set_negative_and_zero_bits(self, self.register_a);
-    }
-
-    fn TXS(&mut self) {
-        panic!()
     }
 
     fn TYA(&mut self) {
