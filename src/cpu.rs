@@ -31,6 +31,7 @@ impl CPU {
         CPU {
             register_a: 0,
             register_x: 0,
+            register_y: 0,
             status: 0,
             stkp : 0,
             program_counter: 0,
