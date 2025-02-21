@@ -64,6 +64,7 @@ impl CPU {
         match operation {
             LDA_IMM | LDA_ZP | LDA_ZP_X | LDA_ABS | LDA_ABS_X | LDA_ABS_Y | 
             LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation as usize].addressing_mode),
+            
             STA_ZP | STA_ZP_X | STA_ABS | STA_ABS_X | STA_ABS_Y | 
             STA_IND_X | STA_IND_Y => self.STA(&ITEM_TABLE[operation as usize].addressing_mode),
             _ => panic!()
