@@ -82,6 +82,7 @@ impl CPU {
         match mode {
             AddressingMode::ZEROPAGE => {
                 self.read(self.program_counter, None) as u16
+                // $0000 to $00FF
             }
             AddressingMode::ZEROPAGEx => {
                 self.register_x.wrapping_add(self.read(self.program_counter, None)) as u16
