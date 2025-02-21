@@ -1,4 +1,6 @@
 #![allow(non_snake_case)]
+use core::panic;
+
 use crate ::bus::Bus;
 use crate ::opcodes::*;
 pub struct CPU {
@@ -76,6 +78,19 @@ impl CPU {
             LDY_IMM | LDY_ZP | LDY_ZP_X | LDY_ABS | LDY_ABS_X => self.LDY(&ITEM_TABLE[operation as usize].addressing_mode),
 
             STY_ZP | STY_ZP_X | STY_ABS => self.STY(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            TAX => self.TAX(),
+
+            TAY => self.TAY(),
+
+            TSX_IMPL => self.TSX(),
+
+            TXA => self.TXA(),
+
+            TXS_IMPL => self.TXS(),
+
+            TYA => self.TYA(),
+
             _ => panic!()
         }
 
@@ -202,16 +217,7 @@ impl CPU {
     fn LDY(&mut self, mode : &AddressingMode) {
         let loaded_data = self.get_addressed_data(mode);
         self.register_y = loaded_data;
-        if loaded_data == 0x00 {
-            self.set_status_bit(Self::ZERO_BIT);
-        } 
-
-        if (loaded_data & 0b1000_0000) != 0 {
-            self.set_status_bit(Self::NEGATIVE_BIT);
-        }
-        else {
-            self.clear_status_bit(Self::NEGATIVE_BIT);
-        }
+        Self::set_negative_and_zero_bits(self, loaded_data);
 
     }
 
@@ -220,6 +226,42 @@ impl CPU {
         self.write(loaded_data, self.register_y);
     }
 
+    fn TAX(&mut self) {
+        self.register_x = self.register_a;
+
+        Self::set_negative_and_zero_bits(self, self.register_a);
+    }
+
+    fn TAY(&mut self) {
+        self.register_y = self.register_a;
+
+        Self::set_negative_and_zero_bits(self, self.register_a);
+    }
+
+    fn TSX(&mut self) {
+        panic!();
+    }
+
+    fn TXA(&mut self) {
+        self.register_a = self.register_x;
+
+        Self::set_negative_and_zero_bits(self, self.register_a);
+    }
+
+    fn TXS(&mut self) {
+        panic!()
+    }
+
+    fn TYA(&mut self) {
+        self.register_a = self.register_y;
+
+        Self::set_negative_and_zero_bits(self, self.register_a);
+    }
+
+
+
+
+
     fn write(&mut self, addr : u16, data : u8) -> () {
         self.bus.write(addr, data);
     
@@ -227,6 +269,7 @@ impl CPU {
     fn read(&mut self,addr : u16, _bReadOnly : Option<bool>) -> u8 {
         return self.bus.read(addr, _bReadOnly);
     }
+
     fn combine_u8(a : u8, b : u8) -> u16 {
         ((a as u16) << 8) | b as u16
     }
@@ -250,6 +293,19 @@ fn set_status_bit (&mut self, bit : u8) {
 }
 fn clear_status_bit (&mut self, bit : u8) {
     self.status &= !bit
+}
+
+fn set_negative_and_zero_bits(&mut self, value : u8) {
+    if value == 0x00 {
+        self.set_status_bit(Self::ZERO_BIT);
+    } 
+
+    if (value & 0b1000_0000) != 0 {
+        self.set_status_bit(Self::NEGATIVE_BIT);
+    }
+    else {
+        self.clear_status_bit(Self::NEGATIVE_BIT);
+    }
 }
 
 }
