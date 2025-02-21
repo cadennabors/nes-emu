@@ -71,6 +71,10 @@ impl CPU {
             LDX_IMM | LDX_ZP | LDX_ZP_Y | LDX_ABS | LDX_ABS_Y => self.LDX(&ITEM_TABLE[operation as usize].addressing_mode),
 
             STX_ZP | STX_ZP_Y | STX_ABS => self.STX(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            LDY_IMM | LDY_ZP | LDY_ZP_X | LDY_ABS | LDY_ABS_X => self.LDY(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            STY_ZP | STY_ZP_X | STY_ABS => self.STY(&ITEM_TABLE[operation as usize].addressing_mode),
             _ => panic!()
         }
 
@@ -192,6 +196,27 @@ impl CPU {
     fn STX(&mut self, mode : &AddressingMode) {
         let loaded_data = self.get_address_from_mode(mode);
         self.write(loaded_data, self.register_x);
+    }
+
+    fn LDY(&mut self, mode : &AddressingMode) {
+        let loaded_data = self.get_addressed_data(mode);
+        self.register_y = loaded_data;
+        if loaded_data == 0x00 {
+            self.set_status_bit(Self::ZERO_BIT);
+        } 
+
+        if (loaded_data & 0b1000_0000) != 0 {
+            self.set_status_bit(Self::NEGATIVE_BIT);
+        }
+        else {
+            self.clear_status_bit(Self::NEGATIVE_BIT);
+        }
+
+    }
+
+    fn STY(&mut self, mode : &AddressingMode) {
+        let loaded_data = self.get_address_from_mode(mode);
+        self.write(loaded_data, self.register_y);
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
