@@ -23,4 +23,14 @@ impl Bus {
         }
         return self.ram[addr as usize];
     }
+
+    pub fn load_program(&mut self, program: &[u8]) {
+        let len = program.len();
+        let rom_len = self.rom.len();
+
+        if len > rom_len {
+            panic!("Program is too large to fit in ROM!");
+        }
+        self.rom[..len].copy_from_slice(program);
+    }
 }
