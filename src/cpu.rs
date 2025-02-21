@@ -42,17 +42,19 @@ impl CPU {
         }
     }
 
-    
+
     pub fn interpret(&mut self) {
-        let program : &[u8] = &[LDA_IMM, 4, STA_ZP, 0x00, LDA_IMM, 7, LDA_ZP, 0x00];
-        self.bus.load_program(program);
-        println!("Register A: {}\nRegister X : {}", self.register_a, self.register_x);
+        //let program : &[u8] = &[LDA_IMM, 4, STA_ZP, 0x00, LDA_IMM, 7, LDA_ZP, 0x00];
+        let program : &[u8] = &[LDA_IMM, 1, STA_ABS, 0x20, 0x00, LDX_IMM, 10, LDA_IMM, 5, STA_ZP, 0x00, LDA_ABS, 0x20, 0x00];
+        self.bus.load_program(program, 0x8000);
+        self.program_counter = 0x8000;
+        println!("Register A: {}\nRegister X : {}\nRegister Y : {} ", self.register_a, self.register_x, self.register_y);
         loop {
-            let read_code = self.read(self.program_counter, Some(true));
+            let read_code = self.read(self.program_counter, None);
             println!("{}", read_code);
             self.program_counter += 1;
             let cycles_taken = self.run_operation(read_code);
-            println!("Register A: {}\nRegister X : {}", self.register_a, self.register_x);
+            println!("Register A: {}\nRegister X : {}\nRegister Y : {} ", self.register_a, self.register_x, self.register_y);
 
         }
     }
@@ -97,13 +99,17 @@ impl CPU {
                 return self.register_a
             }
             AddressingMode::IMMEDIATE => {
-                let value = self.read(self.program_counter, Some(true));
+                let value = self.read(self.program_counter, None);
                 self.program_counter += 1;
                 return value
             }
-            AddressingMode::ZEROPAGE | AddressingMode::ZEROPAGEx | AddressingMode::ZEROPAGEy | AddressingMode::INDIRECTx | AddressingMode::INDIRECTy => {
+            AddressingMode::ZEROPAGE | AddressingMode::ZEROPAGEx | AddressingMode::ZEROPAGEy | AddressingMode::INDIRECTx | AddressingMode::INDIRECTy | AddressingMode::ABSOLUTE |
+            AddressingMode::ABSOLUTEx | AddressingMode::ABSOLUTEy => {
                 let address = self.get_address_from_mode(mode);
                 self.read(address, None)
+            }
+            AddressingMode::RELATIVE => {
+                panic!()
             }
             
             _ => panic!()
@@ -114,49 +120,49 @@ impl CPU {
     fn get_address_from_mode(&mut self, mode: &AddressingMode) -> u16 {
         match mode {
             AddressingMode::ZEROPAGE => {
-               let val = self.read(self.program_counter, Some(true)) as u16;
+               let val = self.read(self.program_counter, None) as u16;
                self.program_counter += 1;
                val
                 // $0000 to $00FF
             }
             AddressingMode::ZEROPAGEx => {
-                let val = self.register_x.wrapping_add(self.read(self.program_counter, Some(true))) as u16;
+                let val = self.register_x.wrapping_add(self.read(self.program_counter, None)) as u16;
                 self.program_counter += 1;
                 val
             }
             AddressingMode::ZEROPAGEy => {
-                let val = self.register_y.wrapping_add(self.read(self.program_counter, Some(true))) as u16;
+                let val = self.register_y.wrapping_add(self.read(self.program_counter, None)) as u16;
                 self.program_counter += 1;
                 val
             }
             AddressingMode::ABSOLUTE => {
-                let a = self.read(self.program_counter, Some(true));
+                let a = self.read(self.program_counter, None);
                 self.program_counter += 1;
-                let b = self.read(self.program_counter, Some(true));
+                let b = self.read(self.program_counter, None);
                 self.program_counter += 1;
                 Self::combine_u8(a, b)
             }
             AddressingMode::ABSOLUTEx => {
-                let a = self.read(self.program_counter, Some(true));
+                let a = self.read(self.program_counter, None);
                 self.program_counter += 1;
-                let b = self.read(self.program_counter, Some(true));
+                let b = self.read(self.program_counter, None);
                 self.program_counter += 1;
                 Self::combine_u8(a, b).wrapping_add(self.register_x as u16)
             }
             AddressingMode::ABSOLUTEy => {
-                let a = self.read(self.program_counter, Some(true));
+                let a = self.read(self.program_counter, None);
                 self.program_counter += 1;
-                let b = self.read(self.program_counter, Some(true));
+                let b = self.read(self.program_counter, None);
                 self.program_counter += 1;
                 Self::combine_u8(a, b).wrapping_add(self.register_y as u16)
             }
             AddressingMode::INDIRECTx => {
-                let address = self.read(self.program_counter, Some(true));
+                let address = self.read(self.program_counter, None);
                 let address_2 = address.wrapping_add(self.register_x);
                 self.get_address_indirect(address_2 as u16)
             }
             AddressingMode::INDIRECTy => {
-                let address = self.read(self.program_counter, Some(true));
+                let address = self.read(self.program_counter, None);
                 let address_2 = address.wrapping_add(self.register_y);
                 self.get_address_indirect(address_2 as u16)
             }
