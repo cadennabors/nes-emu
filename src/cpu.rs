@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 use crate ::bus::Bus;
 use crate ::opcodes::*;
 pub struct CPU {
