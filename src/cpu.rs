@@ -115,6 +115,11 @@ impl CPU {
             ORA_IMM | ORA_ZP | ORA_ZP_X | ORA_ABS | ORA_ABS_X |
             ORA_ABS_Y | ORA_IND_X | ORA_IND_Y => self.ORA(&ITEM_TABLE[operation as usize].addressing_mode),
 
+            EOR_IMM | EOR_ZP | EOR_ZP_X | EOR_ABS | EOR_ABS_X | 
+            EOR_ABS_Y | EOR_IND_X | EOR_IND_Y => self.EOR(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            BIT_ZP | BIT_ABS => self.BIT(&ITEM_TABLE[operation as usize].addressing_mode),
+
             _ => panic!()
         }
 
@@ -421,6 +426,27 @@ impl CPU {
         self.register_a = res;
 
         self.set_negative_and_zero_bits(res);
+    }
+
+    fn EOR(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let res = self.register_a ^ self.bus.read(address, None);
+        self.register_a = res;
+
+        self.set_negative_and_zero_bits(res);
+    }
+
+    fn BIT(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let res = self.register_a & self.bus.read(address, None);
+
+        self.set_negative_and_zero_bits(res);
+        if (res & 0b0100_0000) != 0 {
+            self.set_status_bit(Self::OVERFLOW_BIT);
+        }
+        else {
+            self.clear_status_bit(Self::OVERFLOW_BIT);
+        }
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
