@@ -86,6 +86,9 @@ impl CPU {
             ADC_IMM | ADC_ZP | ADC_ZP_X | ADC_ABS | ADC_ABS_X |
             ADC_ABS_Y | ADC_IND_X | ADC_IND_Y => self.ADC(&ITEM_TABLE[operation as usize].addressing_mode),
 
+            SBC_IMM | SBC_ZP | SBC_ZP_X | SBC_ABS | SBC_ABS_X |
+            SBC_ABS_Y | SBC_IND_X | SBC_IND_Y => self.SBC(&ITEM_TABLE[operation as usize].addressing_mode),
+
             INC_ZP | INC_ZP_X | INC_ABS | INC_ABS_X => self.INC(&ITEM_TABLE[operation as usize].addressing_mode),
           
             
