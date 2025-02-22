@@ -109,6 +109,12 @@ impl CPU {
 
             ROR_ACC | ROR_ZP | ROR_ZP_X | ROR_ABS | ROR_ABS_X => self.ROR(&ITEM_TABLE[operation as usize].addressing_mode),
 
+            AND_IMM | AND_ZP | AND_ZP_X | AND_ABS | AND_ABS_X |
+            AND_ABS_Y | AND_IND_X | AND_IND_Y => self.AND(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            ORA_IMM | ORA_ZP | ORA_ZP_X | ORA_ABS | ORA_ABS_X |
+            ORA_ABS_Y | ORA_IND_X | ORA_IND_Y => self.ORA(&ITEM_TABLE[operation as usize].addressing_mode),
+
             _ => panic!()
         }
 
@@ -379,7 +385,42 @@ impl CPU {
     }
 
     fn ROR(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let mut value = self.get_addressed_data(mode);
+        let status_old = self.status;
 
+        if value | 0b0000_0001 != 0 {
+            self.set_status_bit(Self::CARRY_BIT);
+        }
+        else {
+            self.clear_status_bit(Self::CARRY_BIT);
+        }
+
+        value = value >> 1;
+
+        value = value | (status_old & Self::CARRY_BIT);
+        self.set_negative_and_zero_bits(value);
+        match mode {
+            AddressingMode::ACCUMULATOR => self.register_a = value,
+
+            _ => self.bus.write(address, value)
+        }
+    }
+
+    fn AND(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let res = self.register_a & self.bus.read(address, None);
+        self.register_a = res;
+
+        self.set_negative_and_zero_bits(res);
+    }
+
+    fn ORA(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let res = self.register_a | self.bus.read(address, None);
+        self.register_a = res;
+
+        self.set_negative_and_zero_bits(res);
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
