@@ -93,6 +93,14 @@ impl CPU {
           
             DEC_ZP | DEC_ZP_X | DEC_ABS | DEC_ABS_X => self.DEC(&ITEM_TABLE[operation as usize].addressing_mode),
             
+            INX => self.INX(),
+
+            DEX => self.DEX(),
+
+            INY => self.INY(),
+
+            DEY => self.DEY(),
+
             _ => panic!()
         }
 
@@ -276,6 +284,26 @@ impl CPU {
         let data = self.bus.read(address, None);
         self.bus.write(address, data.wrapping_sub(1));
         self.set_negative_and_zero_bits(data.wrapping_sub(1));
+    }
+
+    fn INX(&mut self) {
+        self.register_x = self.register_x.wrapping_add(1);
+        self.set_negative_and_zero_bits(self.register_x);
+    }
+
+    fn DEX(&mut self) {
+        self.register_x = self.register_x.wrapping_sub(1);
+        self.set_negative_and_zero_bits(self.register_x);
+    }
+
+    fn INY(&mut self) {
+        self.register_y = self.register_y.wrapping_add(1);
+        self.set_negative_and_zero_bits(self.register_y);
+    }
+
+    fn DEY(&mut self) {
+        self.register_y = self.register_y.wrapping_sub(1);
+        self.set_negative_and_zero_bits(self.register_y);
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
