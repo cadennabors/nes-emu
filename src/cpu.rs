@@ -45,13 +45,13 @@ impl CPU {
 
     pub fn interpret(&mut self) {
         //let program : &[u8] = &[LDA_IMM, 4, STA_ZP, 0x00, LDA_IMM, 7, LDA_ZP, 0x00];
-        let program : &[u8] = &[LDA_IMM, 1, STA_ABS, 0x20, 0x00, LDX_IMM, 10, LDA_IMM, 5, STA_ZP, 0x00, LDA_ABS, 0x20, 0x00];
+        let program : &[u8] = &[LDA_IMM, 1, STA_ABS, 0x20, 0x00, LDX_IMM, 10, LDA_IMM, 5, STA_ZP, 0x00, INX, INY, INC_ABS, 0x20, 0x00, LDA_ABS, 0x20, 0x00];
         self.bus.load_program(program, 0x8000);
         self.program_counter = 0x8000;
         println!("Register A: {}\nRegister X : {}\nRegister Y : {} ", self.register_a, self.register_x, self.register_y);
         loop {
             let read_code = self.read(self.program_counter, None);
-            println!("{}", read_code);
+            println!("{:x}", read_code);
             self.program_counter += 1;
             let cycles_taken = self.run_operation(read_code);
             println!("Register A: {}\nRegister X : {}\nRegister Y : {} ", self.register_a, self.register_x, self.register_y);
@@ -101,6 +101,8 @@ impl CPU {
 
             DEY => self.DEY(),
 
+            ASL => self.ASL(&ITEM_TABLE[operation as usize].addressing_mode),
+
             _ => panic!()
         }
 
@@ -133,6 +135,9 @@ impl CPU {
 
     fn get_address_from_mode(&mut self, mode: &AddressingMode) -> u16 {
         match mode {
+            AddressingMode::ACCUMULATOR => {
+                0x0000 // HANDLE IN CODE
+            }
             AddressingMode::ZEROPAGE => {
                let val = self.read(self.program_counter, None) as u16;
                self.program_counter += 1;
@@ -304,6 +309,25 @@ impl CPU {
     fn DEY(&mut self) {
         self.register_y = self.register_y.wrapping_sub(1);
         self.set_negative_and_zero_bits(self.register_y);
+    }
+
+    fn ASL(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let mut value = self.get_addressed_data(mode);
+        if value | 0b1000_0000 != 0 {
+            self.set_status_bit(Self::CARRY_BIT);
+        }
+        else {
+            self.clear_status_bit(Self::CARRY_BIT);
+        }
+
+        value = value << 1;
+        self.set_negative_and_zero_bits(value);
+        match mode {
+            AddressingMode::ACCUMULATOR => self.register_a = value,
+
+            _ => self.bus.write(address, value)
+        }
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
