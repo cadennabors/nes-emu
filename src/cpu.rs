@@ -83,6 +83,9 @@ impl CPU {
 
             TYA => self.TYA(),
 
+            ADC_IMM | ADC_ZP | ADC_ZP_X | ADC_ABS | ADC_ABS_X |
+            ADC_ABS_Y | ADC_IND_X | ADC_IND_Y => self.ADC(&ITEM_TABLE[operation as usize].addressing_mode),
+
             _ => panic!()
         }
 
@@ -246,7 +249,9 @@ impl CPU {
         Self::set_negative_and_zero_bits(self, self.register_a);
     }
 
+    fn ADC(&mut self, mode : &AddressingMode) {
 
+    }
 
 
 
