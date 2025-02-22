@@ -101,7 +101,13 @@ impl CPU {
 
             DEY => self.DEY(),
 
-            ASL => self.ASL(&ITEM_TABLE[operation as usize].addressing_mode),
+            ASL_ACC | ASL_ABS | ASL_ABS_X | ASL_ZP | ASL_ZP_X => self.ASL(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            LSR_ACC | LSR_ABS | LSR_ABS_X | LSR_ZP | LSR_ZP_X => self.LSR(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            ROL_ACC | ROL_ZP | ROL_ZP_X | ROL_ABS | ROL_ABS_X => self.ROL(&ITEM_TABLE[operation as usize].addressing_mode),
+
+            ROR_ACC | ROR_ZP | ROR_ZP_X | ROR_ABS | ROR_ABS_X => self.ROR(&ITEM_TABLE[operation as usize].addressing_mode),
 
             _ => panic!()
         }
@@ -328,6 +334,52 @@ impl CPU {
 
             _ => self.bus.write(address, value)
         }
+    }
+
+    fn LSR(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let mut value = self.get_addressed_data(mode);
+        if value | 0b0000_0001 != 0 {
+            self.set_status_bit(Self::CARRY_BIT);
+        }
+        else {
+            self.clear_status_bit(Self::CARRY_BIT);
+        }
+
+        value = value >> 1;
+        self.set_negative_and_zero_bits(value);
+        match mode {
+            AddressingMode::ACCUMULATOR => self.register_a = value,
+
+            _ => self.bus.write(address, value)
+        }
+    }
+
+    fn ROL(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let mut value = self.get_addressed_data(mode);
+        let status_old = self.status;
+
+        if value | 0b0000_0001 != 0 {
+            self.set_status_bit(Self::CARRY_BIT);
+        }
+        else {
+            self.clear_status_bit(Self::CARRY_BIT);
+        }
+
+        value = value << 1;
+
+        value = value | (status_old & Self::CARRY_BIT);
+        self.set_negative_and_zero_bits(value);
+        match mode {
+            AddressingMode::ACCUMULATOR => self.register_a = value,
+
+            _ => self.bus.write(address, value)
+        }
+    }
+
+    fn ROR(&mut self, mode : &AddressingMode) {
+
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
