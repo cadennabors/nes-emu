@@ -86,6 +86,10 @@ impl CPU {
             ADC_IMM | ADC_ZP | ADC_ZP_X | ADC_ABS | ADC_ABS_X |
             ADC_ABS_Y | ADC_IND_X | ADC_IND_Y => self.ADC(&ITEM_TABLE[operation as usize].addressing_mode),
 
+            INC_ZP | INC_ZP_X | INC_ABS | INC_ABS_X => self.INC(&ITEM_TABLE[operation as usize].addressing_mode),
+          
+            
+            
             _ => panic!()
         }
 
@@ -250,7 +254,18 @@ impl CPU {
     }
 
     fn ADC(&mut self, mode : &AddressingMode) {
+        panic!()
+    }
 
+    fn SBC(&mut self, mode : &AddressingMode) {
+        panic!()
+    }
+
+    fn INC(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let data = self.bus.read(address, None);
+        self.bus.write(address, data.wrapping_add(1));
+        self.set_negative_and_zero_bits(data.wrapping_add(1));
     }
 
 
