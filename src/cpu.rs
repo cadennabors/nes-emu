@@ -91,7 +91,7 @@ impl CPU {
 
             INC_ZP | INC_ZP_X | INC_ABS | INC_ABS_X => self.INC(&ITEM_TABLE[operation as usize].addressing_mode),
           
-            
+            DEC_ZP | DEC_ZP_X | DEC_ABS | DEC_ABS_X => self.DEC(&ITEM_TABLE[operation as usize].addressing_mode),
             
             _ => panic!()
         }
@@ -271,7 +271,12 @@ impl CPU {
         self.set_negative_and_zero_bits(data.wrapping_add(1));
     }
 
-
+    fn DEC(&mut self, mode : &AddressingMode) {
+        let address = self.get_address_from_mode(mode);
+        let data = self.bus.read(address, None);
+        self.bus.write(address, data.wrapping_sub(1));
+        self.set_negative_and_zero_bits(data.wrapping_sub(1));
+    }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
         self.bus.write(addr, data);
