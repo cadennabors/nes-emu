@@ -286,8 +286,9 @@ impl CPU {
         Self::set_negative_and_zero_bits(self, self.register_a);
     }
 
+    // A + mem + Carry
     fn ADC(&mut self, mode : &AddressingMode) {
-        panic!()
+       
     }
 
     fn SBC(&mut self, mode : &AddressingMode) {
@@ -482,10 +483,17 @@ fn clear_status_bit (&mut self, bit : u8) {
     self.status &= !bit
 }
 
+fn get_bit (&self, bit : u8) -> bool {
+    return (self.status & bit) != 0
+}
+
 fn set_negative_and_zero_bits(&mut self, value : u8) {
     if value == 0x00 {
         self.set_status_bit(Self::ZERO_BIT);
     } 
+    else {
+        self.clear_status_bit(Self::ZERO_BIT);
+    }
 
     if (value & 0b1000_0000) != 0 {
         self.set_status_bit(Self::NEGATIVE_BIT);
