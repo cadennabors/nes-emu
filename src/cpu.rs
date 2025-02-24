@@ -288,7 +288,7 @@ impl CPU {
 
     // A + mem + Carry
     fn ADC(&mut self, mode : &AddressingMode) {
-       
+       panic!()
     }
 
     fn SBC(&mut self, mode : &AddressingMode) {
