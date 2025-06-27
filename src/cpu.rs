@@ -468,7 +468,7 @@ impl CPU {
     }
 // ----------------STATUS----------------------
 const CARRY_BIT : u8 = 0b1000_0000;
-const ZERO_BIT : u8 = 0b0100_0000;
+const ZERO_BIT : u8 = 0b01000_0000;
 const DISABLE_INTERRUPTS_BIT : u8 = 0b0010_0000;
 const DECIMAL_MODE_BIT : u8 = 0b0001_0000;
 const BREAK_BIT : u8 = 0b0000_1000;
