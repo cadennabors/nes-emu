@@ -53,27 +53,27 @@ impl CPU {
             let read_code = self.read(self.program_counter, None);
             println!("{:x}", read_code);
             self.program_counter += 1;
-            let cycles_taken = self.run_operation(read_code);
+            let cycles_taken = self.run_operation(read_code as usize);
             println!("Register A: {}\nRegister X : {}\nRegister Y : {} ", self.register_a, self.register_x, self.register_y);
 
         }
     }
 
-    fn run_operation(&mut self, operation : u8) -> u8 {
-        match operation {
+    fn run_operation(&mut self, operation : usize) -> u8 {
+        match operation as u8 {
             LDA_IMM | LDA_ZP | LDA_ZP_X | LDA_ABS | LDA_ABS_X | LDA_ABS_Y | 
-            LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation as usize].addressing_mode),
+            LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation].addressing_mode),
 
             STA_ZP | STA_ZP_X | STA_ABS | STA_ABS_X | STA_ABS_Y | 
-            STA_IND_X | STA_IND_Y => self.STA(&ITEM_TABLE[operation as usize].addressing_mode),
+            STA_IND_X | STA_IND_Y => self.STA(&ITEM_TABLE[operation].addressing_mode),
 
-            LDX_IMM | LDX_ZP | LDX_ZP_Y | LDX_ABS | LDX_ABS_Y => self.LDX(&ITEM_TABLE[operation as usize].addressing_mode),
+            LDX_IMM | LDX_ZP | LDX_ZP_Y | LDX_ABS | LDX_ABS_Y => self.LDX(&ITEM_TABLE[operation].addressing_mode),
 
-            STX_ZP | STX_ZP_Y | STX_ABS => self.STX(&ITEM_TABLE[operation as usize].addressing_mode),
+            STX_ZP | STX_ZP_Y | STX_ABS => self.STX(&ITEM_TABLE[operation].addressing_mode),
 
-            LDY_IMM | LDY_ZP | LDY_ZP_X | LDY_ABS | LDY_ABS_X => self.LDY(&ITEM_TABLE[operation as usize].addressing_mode),
+            LDY_IMM | LDY_ZP | LDY_ZP_X | LDY_ABS | LDY_ABS_X => self.LDY(&ITEM_TABLE[operation].addressing_mode),
 
-            STY_ZP | STY_ZP_X | STY_ABS => self.STY(&ITEM_TABLE[operation as usize].addressing_mode),
+            STY_ZP | STY_ZP_X | STY_ABS => self.STY(&ITEM_TABLE[operation].addressing_mode),
 
             TAX => self.TAX(),
 
@@ -84,14 +84,14 @@ impl CPU {
             TYA => self.TYA(),
 
             ADC_IMM | ADC_ZP | ADC_ZP_X | ADC_ABS | ADC_ABS_X |
-            ADC_ABS_Y | ADC_IND_X | ADC_IND_Y => self.ADC(&ITEM_TABLE[operation as usize].addressing_mode),
+            ADC_ABS_Y | ADC_IND_X | ADC_IND_Y => self.ADC(&ITEM_TABLE[operation].addressing_mode),
 
             SBC_IMM | SBC_ZP | SBC_ZP_X | SBC_ABS | SBC_ABS_X |
-            SBC_ABS_Y | SBC_IND_X | SBC_IND_Y => self.SBC(&ITEM_TABLE[operation as usize].addressing_mode),
+            SBC_ABS_Y | SBC_IND_X | SBC_IND_Y => self.SBC(&ITEM_TABLE[operation].addressing_mode),
 
-            INC_ZP | INC_ZP_X | INC_ABS | INC_ABS_X => self.INC(&ITEM_TABLE[operation as usize].addressing_mode),
+            INC_ZP | INC_ZP_X | INC_ABS | INC_ABS_X => self.INC(&ITEM_TABLE[operation].addressing_mode),
           
-            DEC_ZP | DEC_ZP_X | DEC_ABS | DEC_ABS_X => self.DEC(&ITEM_TABLE[operation as usize].addressing_mode),
+            DEC_ZP | DEC_ZP_X | DEC_ABS | DEC_ABS_X => self.DEC(&ITEM_TABLE[operation].addressing_mode),
             
             INX => self.INX(),
 
@@ -101,24 +101,24 @@ impl CPU {
 
             DEY => self.DEY(),
 
-            ASL_ACC | ASL_ABS | ASL_ABS_X | ASL_ZP | ASL_ZP_X => self.ASL(&ITEM_TABLE[operation as usize].addressing_mode),
+            ASL_ACC | ASL_ABS | ASL_ABS_X | ASL_ZP | ASL_ZP_X => self.ASL(&ITEM_TABLE[operation].addressing_mode),
 
-            LSR_ACC | LSR_ABS | LSR_ABS_X | LSR_ZP | LSR_ZP_X => self.LSR(&ITEM_TABLE[operation as usize].addressing_mode),
+            LSR_ACC | LSR_ABS | LSR_ABS_X | LSR_ZP | LSR_ZP_X => self.LSR(&ITEM_TABLE[operation].addressing_mode),
 
-            ROL_ACC | ROL_ZP | ROL_ZP_X | ROL_ABS | ROL_ABS_X => self.ROL(&ITEM_TABLE[operation as usize].addressing_mode),
+            ROL_ACC | ROL_ZP | ROL_ZP_X | ROL_ABS | ROL_ABS_X => self.ROL(&ITEM_TABLE[operation].addressing_mode),
 
-            ROR_ACC | ROR_ZP | ROR_ZP_X | ROR_ABS | ROR_ABS_X => self.ROR(&ITEM_TABLE[operation as usize].addressing_mode),
+            ROR_ACC | ROR_ZP | ROR_ZP_X | ROR_ABS | ROR_ABS_X => self.ROR(&ITEM_TABLE[operation].addressing_mode),
 
             AND_IMM | AND_ZP | AND_ZP_X | AND_ABS | AND_ABS_X |
-            AND_ABS_Y | AND_IND_X | AND_IND_Y => self.AND(&ITEM_TABLE[operation as usize].addressing_mode),
+            AND_ABS_Y | AND_IND_X | AND_IND_Y => self.AND(&ITEM_TABLE[operation].addressing_mode),
 
             ORA_IMM | ORA_ZP | ORA_ZP_X | ORA_ABS | ORA_ABS_X |
-            ORA_ABS_Y | ORA_IND_X | ORA_IND_Y => self.ORA(&ITEM_TABLE[operation as usize].addressing_mode),
+            ORA_ABS_Y | ORA_IND_X | ORA_IND_Y => self.ORA(&ITEM_TABLE[operation].addressing_mode),
 
             EOR_IMM | EOR_ZP | EOR_ZP_X | EOR_ABS | EOR_ABS_X | 
-            EOR_ABS_Y | EOR_IND_X | EOR_IND_Y => self.EOR(&ITEM_TABLE[operation as usize].addressing_mode),
+            EOR_ABS_Y | EOR_IND_X | EOR_IND_Y => self.EOR(&ITEM_TABLE[operation].addressing_mode),
 
-            BIT_ZP | BIT_ABS => self.BIT(&ITEM_TABLE[operation as usize].addressing_mode),
+            BIT_ZP | BIT_ABS => self.BIT(&ITEM_TABLE[operation].addressing_mode),
 
             _ => panic!()
         }
