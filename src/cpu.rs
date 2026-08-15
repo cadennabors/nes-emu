@@ -61,6 +61,7 @@ impl CPU {
 
     fn run_operation(&mut self, operation : usize) -> u8 {
         match operation as u8 {
+            // in order by type -- https://www.nesdev.org/wiki/Instruction_reference
             LDA_IMM | LDA_ZP | LDA_ZP_X | LDA_ABS | LDA_ABS_X | LDA_ABS_Y | 
             LDA_IND_X | LDA_IND_Y => self.LDA(&ITEM_TABLE[operation].addressing_mode),
 
@@ -119,6 +120,9 @@ impl CPU {
             EOR_ABS_Y | EOR_IND_X | EOR_IND_Y => self.EOR(&ITEM_TABLE[operation].addressing_mode),
 
             BIT_ZP | BIT_ABS => self.BIT(&ITEM_TABLE[operation].addressing_mode),
+
+            CMP_ABS | CMP_ABS_X | CMP_ABS_Y | CMP_IMM | CMP_IND_X | CMP_IND_Y |
+            CMP_ZP | CMP_ZP_X => self.CMP(&ITEM_TABLE[operation].addressing_mode),
 
             _ => panic!()
         }
@@ -448,6 +452,12 @@ impl CPU {
         else {
             self.clear_status_bit(Self::OVERFLOW_BIT);
         }
+    }
+
+    fn CMP(&mut self, mode: &AddressingMode) {
+        panic!()
+
+        //should probably switch to having a cpu specific addressing mode variable rather than needing to pass it in
     }
 
     fn write(&mut self, addr : u16, data : u8) -> () {
